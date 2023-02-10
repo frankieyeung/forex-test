@@ -192,29 +192,43 @@ forexData = {
     }
 }
 
-const changeValue = (property, operation, num) => {
-    newProperty = {};
+
+const rates = forexData.rates;
+
+const changeValue = (obj, operation, num) => {
+    newObj = {};
     if (operation === 'add') {
-        for (key in property) {
-            newProperty[key] = property[key] + num;
+        for (key in obj) {
+            newObj[key] = obj[key] + num;
         }
     } else if (operation === 'subtract') {
-        for (key in property) {
-            newProperty[key] = property[key] - num;
+        for (key in obj) {
+            newObj[key] = obj[key] - num;
         }
     } else if (operation === 'multiply') {
-        for (key in property) {
-            newProperty[key] = property[key] * num;
+        for (key in obj) {
+            newObj[key] = obj[key] * num;
         }
     } else if (operation === 'divide') {
-        for (key in property) {
-            newProperty[key] = property[key] * num;
+        for (key in obj) {
+            newObj[key] = obj[key] * num;
         }
     } else {
         return 'Invalid operator'
     }
-    return newProperty;
+    return newObj;
 }
 
-
-
+const appendValue = (...objs) => {
+    newObj = {};
+    for (obj of objs) {
+        for (key in obj) {
+            if (key in newObj) {
+                newObj[key].push(obj[key]);
+            } else {
+                newObj[key] = [obj[key]]
+            }
+        }
+    }
+    return newObj;
+}
