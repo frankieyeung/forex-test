@@ -192,9 +192,6 @@ forexData = {
     }
 }
 
-
-const rates = forexData.rates;
-
 const changeValue = (obj, operation, num) => {
     newObj = {};
     if (operation === 'add') {
@@ -232,3 +229,27 @@ const appendValue = (...objs) => {
     }
     return newObj;
 }
+
+const buildTable = (data, ...tableHeader) => {
+    let forexTable = document.getElementById('forex-table');
+    let output = '';
+    output += '<thead><tr>'
+    for (th of tableHeader) {
+        output += `<th>${th}</th>`
+    }
+    output += '</tr><thead>';
+    for (key in data) {
+        output += `<tr>
+                        <td>${key}</td>`;
+        for (value of data[key]) {
+            output += `<td>${value}</td>`;
+        }
+        output += '</tr>'
+    }
+    forexTable.innerHTML = output;
+}
+
+const rates = forexData.rates;
+newRates = changeValue(rates, 'add', 10.0002);
+combinedRates = appendValue(rates, newRates);
+buildTable(combinedRates, 'Currency', 'Original Rate', 'Original Rate + 10');
