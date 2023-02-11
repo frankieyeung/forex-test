@@ -1,62 +1,63 @@
-var myHeaders = new Headers();
+let myHeaders = new Headers();
 myHeaders.append("apikey", "bEZaUqSorXdVlcCEQNASITGonBPg5Plu");
 
-var requestOptions = {
+let requestOptions = {
     method: 'GET',
     redirect: 'follow',
     headers: myHeaders
 };
 
-const getData = () => fetch("https://api.apilayer.com/exchangerates_data/latest?", requestOptions)
+let getData = () => fetch("https://api.apilayer.com/exchangerates_data/latest?", requestOptions)
     .then(response => response.json())
 
-async function main() {
+const main = async () => {
     let result;
     try {
         result = await getData();
     } catch (err) {
         console.log(err);
     }
-    /*     console.log(result); */
-    const rates = result.rates;
-    /*     console.log(rates); */
-    const newRates = changeValue(rates, 'add', 10.0002);
-    const combinedRates = appendValue(rates, newRates);
+    let forexRates = result.rates;
+    let newRates = addValue(forexRates, 10.0002);
+    let combinedRates = appendValue(forexRates, newRates);
     buildTable(combinedRates, 'Currency', 'Original Rate', 'Original Rate + 10.0002');
 }
 
 main();
 
-/* pass an obj, operation and number as arguments,
-it will return an new object */
-const changeValue = (obj, operation, num) => {
+const addValue = (obj, num) => {
     newObj = {};
-    if (operation === 'add') {
-        for (key in obj) {
-            newObj[key] = obj[key] + num;
-        }
-    } else if (operation === 'subtract') {
-        for (key in obj) {
-            newObj[key] = obj[key] - num;
-        }
-    } else if (operation === 'multiply') {
-        for (key in obj) {
-            newObj[key] = obj[key] * num;
-        }
-    } else if (operation === 'divide') {
-        for (key in obj) {
-            newObj[key] = obj[key] / num;
-        }
-    } else {
-        return 'Invalid operator'
+    for (key in obj) {
+        newObj[key] = obj[key] + num;
     }
     return newObj;
 }
 
-/* pass objects it will turn key,value pair's
-value into an array, if there are any repeat keys
-in other objects, it will push the values into
-the array
+const subtractValue = (obj, num) => {
+    newObj = {};
+    for (key in obj) {
+        newObj[key] = obj[key] - num;
+    }
+    return newObj;
+}
+
+const multiplyValue = (obj, num) => {
+    newObj = {};
+    for (key in obj) {
+        newObj[key] = obj[key] * num;
+    }
+    return newObj;
+}
+
+const divideValue = (obj, num) => {
+    newObj = {};
+    for (key in obj) {
+        newObj[key] = obj[key] / num;
+    }
+    return newObj;
+}
+
+/* This function will push objects key,value pair's value into an array
 */
 const appendValue = (...objs) => {
     newObj = {};
@@ -72,8 +73,8 @@ const appendValue = (...objs) => {
     return newObj;
 }
 
-/* pass object and headers, it will render a HTML table */
-const buildTable = (data, ...tableHeader) => {
+/* This function will render a HTML table */
+const buildTable = (obj, ...tableHeader) => {
     let forexTable = document.getElementById('forex-table');
     let output = '';
     output += '<thead><tr>'
@@ -81,9 +82,9 @@ const buildTable = (data, ...tableHeader) => {
         output += `<th>${th}</th>`
     }
     output += '</tr><thead>';
-    for (key in data) {
+    for (key in obj) {
         output += `<tr><td>${key}</td>`;
-        for (value of data[key]) {
+        for (value of obj[key]) {
             if (isEven(parseInt(value))) { //if the value is even, create a even class
                 output += `<td class="${key} even">${value}</td>`;
             }
@@ -93,7 +94,6 @@ const buildTable = (data, ...tableHeader) => {
         }
         output += '</tr>'
     }
-    /*     console.log(output); */
     forexTable.innerHTML = output;
 }
 
