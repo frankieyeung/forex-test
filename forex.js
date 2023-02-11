@@ -13,6 +13,8 @@ const forexData = fetch("https://api.apilayer.com/exchangerates_data/latest?", r
     .catch(error => console.log('error', error));
  */
 
+
+    
 forexData = {
     "success": true,
     "timestamp": 1676034303,
@@ -239,19 +241,19 @@ const buildTable = (data, ...tableHeader) => {
     }
     output += '</tr><thead>';
     for (key in data) {
-        output += `<tr class="${key}"><td>${key}</td>`;
+        output += `<tr><td>${key}</td>`;
         for (value of data[key]) {
-            if (isEven(value)) {
-                output += `<td>${value}</td>`;
+            if (isEven(parseInt(value))) {
+                output += `<td class="${key} even">${value}</td>`;
             }
             else{
-                output += `<td>${value}</td>`;
+                output += `<td class="${key} odd">${value}</td>`;
             }
         }
         output += '</tr>'
     }
     console.log(output);
-     forexTable.innerHTML = output;
+    forexTable.innerHTML = output;
 }
 
 const isEven = (value) => {
