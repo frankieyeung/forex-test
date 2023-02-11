@@ -1,13 +1,16 @@
-body, table {
+body,
+table {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
 }
 
-td, th {
-    border : 1px solid black;
+td,
+th {
+    border: 1px solid black;
 }
 
-td .HKD, .even {
+td .HKD,
+.even {
     border: 3px solid red;
 }
