@@ -208,7 +208,7 @@ const changeValue = (obj, operation, num) => {
         }
     } else if (operation === 'divide') {
         for (key in obj) {
-            newObj[key] = obj[key] * num;
+            newObj[key] = obj[key] / num;
         }
     } else {
         return 'Invalid operator'
@@ -239,17 +239,26 @@ const buildTable = (data, ...tableHeader) => {
     }
     output += '</tr><thead>';
     for (key in data) {
-        output += `<tr>
-                        <td>${key}</td>`;
+        output += `<tr class="${key}"><td>${key}</td>`;
         for (value of data[key]) {
-            output += `<td>${value}</td>`;
+            if (isEven(value)) {
+                output += `<td>${value}</td>`;
+            }
+            else{
+                output += `<td>${value}</td>`;
+            }
         }
         output += '</tr>'
     }
-    forexTable.innerHTML = output;
+    console.log(output);
+     forexTable.innerHTML = output;
+}
+
+const isEven = (value) => {
+    return value % 2 == 0 ? true : false;
 }
 
 const rates = forexData.rates;
-newRates = changeValue(rates, 'add', 10.0002);
-combinedRates = appendValue(rates, newRates);
-buildTable(combinedRates, 'Currency', 'Original Rate', 'Original Rate + 10');
+const newRates = changeValue(rates, 'add', 10.0002);
+const combinedRates = appendValue(rates, newRates);
+buildTable(combinedRates, 'Currency', 'Original Rate', 'Original Rate + 10.0002');
