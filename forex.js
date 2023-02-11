@@ -27,6 +27,8 @@ async function main() {
 
 main();
 
+/* pass an obj, operation and number as arguments,
+it will return an new object */
 const changeValue = (obj, operation, num) => {
     newObj = {};
     if (operation === 'add') {
@@ -51,6 +53,11 @@ const changeValue = (obj, operation, num) => {
     return newObj;
 }
 
+/* pass objects it will turn key,value pair's
+value into an array, if there are any repeat keys
+in other objects, it will push the values into
+the array
+*/
 const appendValue = (...objs) => {
     newObj = {};
     for (obj of objs) {
@@ -65,6 +72,7 @@ const appendValue = (...objs) => {
     return newObj;
 }
 
+/* pass object and headers, it will render a HTML table */
 const buildTable = (data, ...tableHeader) => {
     let forexTable = document.getElementById('forex-table');
     let output = '';
@@ -76,7 +84,7 @@ const buildTable = (data, ...tableHeader) => {
     for (key in data) {
         output += `<tr><td>${key}</td>`;
         for (value of data[key]) {
-            if (isEven(parseInt(value))) {
+            if (isEven(parseInt(value))) { //if the value is even, create a even class
                 output += `<td class="${key} even">${value}</td>`;
             }
             else {
